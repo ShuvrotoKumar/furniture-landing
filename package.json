@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^6.0.0",
     "framer-motion": "^12.23.24",
     "geist": "^1.5.1",
     "next": "^14.0.3",
