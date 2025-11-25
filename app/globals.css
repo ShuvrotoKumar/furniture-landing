@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; /* Adjust based on your header height */
+}
+
+/* Section spacing */
+section {
+  scroll-margin-top: 100px; /* Same as scroll-padding-top */
+  position: relative;
+}
+
+@layer base {
+  :root {
+    --primary: #FF6B35;
+    --secondary: #1A535C;
+    --accent: #4ECDC4;
+    --light: #F7FFF7;
+    --dark: #1E1E1E;
+  }
+  
+  html {
+    scroll-padding-top: 80px; /* Adjust this value based on your header height */
+  }
+   /* For smaller screens, you might want less padding */
+  @media (max-width: 768px) {
+    html {
+      scroll-padding-top: 60px;
+    }
+  }
+
+  body {
+    @apply text-gray-800 bg-white;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-gray-900;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-orange-500 text-white px-6 py-3 rounded-md font-medium hover:bg-orange-600 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-colors;
+  }
+
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
