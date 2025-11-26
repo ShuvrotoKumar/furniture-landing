@@ -9,7 +9,7 @@ export default function AboutPage() {
       <div className="relative h-96 bg-gray-900">
         <div className="absolute inset-0">
           <Image
-            src="/images/about-hero.jpg"
+            src="/images/a-hero.jpg"
             alt="Modern furniture showroom"
             fill
             className="object-cover opacity-70"
@@ -82,19 +82,19 @@ export default function AboutPage() {
               {
                 name: 'Sarah Johnson',
                 role: 'Founder & CEO',
-                image: '/images/team/sarah.jpg',
+                image: '/images/a1.jpg',
                 bio: 'With over 15 years in the furniture industry, Sarah leads our team with vision and passion.'
               },
               {
                 name: 'Michael Chen',
                 role: 'Lead Designer',
-                image: '/images/team/michael.jpg',
+                image: '/images/a3.jpg',
                 bio: 'Michael brings innovative designs that blend form and function seamlessly.'
               },
               {
                 name: 'Elena Rodriguez',
                 role: 'Customer Experience',
-                image: '/images/team/elena.jpg',
+                image: '/images/a2.jpg',
                 bio: 'Elena ensures every customer receives exceptional service from start to finish.'
               }
             ].map((member, index) => (

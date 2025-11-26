@@ -57,15 +57,25 @@ const Products = () => {
         
         <Swiper
           modules={[Navigation, Pagination]}
-          spaceBetween={30}
+          spaceBetween={24}
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
           breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 4 }
+            640: { 
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 24
+            },
+            1024: { 
+              slidesPerView: 4,
+              spaceBetween: 24
+            }
           }}
-          className="pb-12"
+          className="pb-12 w-full"
         >
           {products.map((product) => (
             <SwiperSlide key={product.id} className="pb-10">
