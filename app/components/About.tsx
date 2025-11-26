@@ -40,7 +40,7 @@ const About = () => {
             <p className="text-gray-600 mb-8">
               Our furniture is designed to bring both style and comfort to your home. 
               Each piece is carefully crafted with attention to detail and quality materials 
-              to ensure it lasts for years to come.
+              to ensure it lasts for years to come . 
             </p>
             
             <ul className="space-y-3 mb-8">
