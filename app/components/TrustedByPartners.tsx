@@ -26,13 +26,13 @@ const TrustedByPartners = () => {
       width: 150,
       height: 40
     },
-    {
-      id: 4,
-      name: 'CB2',
-      logo: '/images/l4.png',
-      width: 80,
-      height: 40
-    },
+    // {
+    //   id: 4,
+    //   name: 'CB2',
+    //   logo: '/images/l4.png',
+    //   width: 80,
+    //   height: 40
+    // },
     {
       id: 5,
       name: 'Design Within Reach',

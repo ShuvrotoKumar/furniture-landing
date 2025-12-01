@@ -57,7 +57,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
             
             {isSubmitted ? (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-6 rounded-lg text-center">
+              <div className="border border-green-200 text-green-700 px-4 py-6 rounded-lg text-center">
                 <FiCheckCircle className="text-4xl mx-auto mb-3 text-green-500" />
                 <h3 className="text-xl font-semibold mb-1">Message Sent Successfully!</h3>
                 <p>We'll get back to you within 24-48 hours.</p>
@@ -167,7 +167,7 @@ export default function ContactPage() {
               
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="bg-blue-100 p-3 rounded-full mr-4 mt-1">
+                  <div className="p-3 rounded-full mr-4 mt-1">
                     <FaMapMarkerAlt className="text-blue-600 text-xl" />
                   </div>
                   <div>
@@ -185,7 +185,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-blue-100 p-3 rounded-full mr-4 mt-1">
+                  <div className="p-3 rounded-full mr-4 mt-1">
                     <FaPhoneAlt className="text-blue-600 text-xl" />
                   </div>
                   <div>
@@ -196,7 +196,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-blue-100 p-3 rounded-full mr-4 mt-1">
+                  <div className="p-3 rounded-full mr-4 mt-1">
                     <FaEnvelope className="text-blue-600 text-xl" />
                   </div>
                   <div>

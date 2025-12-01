@@ -8,7 +8,8 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
-
+import { CartProvider } from './context/CartContext';
+import 'antd/dist/reset.css';
 export default function RootLayout({
   children,
 }: {
@@ -45,13 +46,15 @@ export default function RootLayout({
         <link rel="icon" href="/logo.png" />
       </head>
       <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <div className="min-h-screen flex flex-col">
-          <Navigation />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <CartProvider>
+          <div className="min-h-screen flex flex-col">
+            <Navigation />
+            <main className="flex-grow">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </CartProvider>
       </body>
     </html>
   );

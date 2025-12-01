@@ -51,7 +51,7 @@ const PopularDemand = () => {
             <li>
               <button 
                 onClick={() => scrollToSection('popular')}
-                className="text-gray-700 hover:text-orange-500 font-medium transition-colors"
+                className="text-gray-700 hover:text-blue-500 font-medium transition-colors"
               >
                 Popular
               </button>
@@ -59,7 +59,7 @@ const PopularDemand = () => {
             <li>
               <button 
                 onClick={() => scrollToSection('features')}
-                className="text-gray-700 hover:text-orange-500 font-medium transition-colors"
+                className="text-gray-700 hover:text-blue-500 font-medium transition-colors"
               >
                 Features
               </button>
@@ -67,7 +67,7 @@ const PopularDemand = () => {
             <li>
               <button 
                 onClick={() => scrollToSection('new-arrivals')}
-                className="text-gray-700 hover:text-orange-500 font-medium transition-colors"
+                className="text-gray-700 hover:text-blue-500 font-medium transition-colors"
               >
                 New Arrivals
               </button>

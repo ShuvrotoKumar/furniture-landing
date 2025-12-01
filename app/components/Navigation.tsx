@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FiSearch, FiShoppingCart, FiX } from 'react-icons/fi';
 import { FaBars } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
+import { useCart } from '../context/CartContext';
 
 // Dynamically import the ShoppingCartDrawer with SSR disabled
 const ShoppingCartDrawer = dynamic(
@@ -31,6 +32,7 @@ const Navigation = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const { totalItems } = useCart();
 
   // Sample product data - replace with your actual data source
   const products: Product[] = [
@@ -158,6 +160,19 @@ const Navigation = () => {
     e.preventDefault();
     console.log('Clicked nav item:', id);
     
+    // If we're not on the home page and the section is not 'home', navigate to home page with hash
+    if (pathname !== '/') {
+      if (id === 'home') {
+        router.push('/');
+        return;
+      } else {
+        // For other sections, navigate to home page with hash
+        router.push(`/#${id}`);
+        return;
+      }
+    }
+    
+    // If we're on the home page, handle smooth scrolling
     const element = document.getElementById(id);
     console.log('Found element:', element);
     
@@ -166,21 +181,12 @@ const Navigation = () => {
       return;
     }
     
-    // Log element position
-    const rect = element.getBoundingClientRect();
-    console.log('Element position:', {
-      top: rect.top,
-      bottom: rect.bottom,
-      height: rect.height,
-      windowScrollY: window.scrollY
-    });
-    
     // Close mobile menu if open
     setIsMenuOpen(false);
     
     // Calculate the offset for fixed header (120px to account for header height and some spacing)
     const headerOffset = 120;
-    const elementPosition = rect.top + window.scrollY;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
     const offsetPosition = elementPosition - headerOffset;
     
     console.log('Scrolling to:', offsetPosition);
@@ -229,7 +235,7 @@ const Navigation = () => {
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <FiX size={24} className="text-orange-400" />
+              <FiX size={24} className="text-blue-400" />
             ) : (
               <FaBars size={24} />
             )}
@@ -257,50 +263,48 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => {
               console.log(`Rendering nav item: ${item.id}, active: ${activeSection === item.id}`);
+              const href = pathname === '/' ? `#${item.id}` : item.id === 'home' ? '/' : `/#${item.id}`;
               return (
-                <a
+                <Link
                   key={item.id}
-                  href={`#${item.id}`}
+                  href={href}
                   onClick={(e) => handleNavClick(e, item.id)}
                   className={`${
-                    activeSection === item.id 
-                      ? 'text-orange-400' 
-                      : 'text-white hover:text-orange-300'
+                    (pathname === '/' && activeSection === item.id) || 
+                    (pathname !== '/' && item.id === 'home')
+                      ? 'text-blue-400' 
+                      : 'text-white hover:text-blue-300'
                   } transition-colors font-medium py-2 px-1 cursor-pointer`}
-                  aria-current={activeSection === item.id ? 'page' : undefined}
+                  aria-current={(pathname === '/' && activeSection === item.id) ? 'page' : undefined}
                 >
                   {item.name}
-                </a>
+                </Link>
               );
             })}
           </div>
 
           {/* Icons */}
           <div className="flex items-center space-x-4 md:space-x-6">
+            {/* Search Button */}
             <div className="relative" ref={searchInputRef}>
               <button 
-                onClick={() => {
-                  setIsSearchOpen(!isSearchOpen);
-                  if (!isSearchOpen) {
-                    setTimeout(() => searchInputRef.current?.focus(), 0);
-                  }
-                }}
-                className="text-white hover:text-orange-300 transition-colors p-2"
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="text-white hover:text-blue-300 p-2"
                 aria-label="Search"
               >
-                <FiSearch size={20} className={isSearchOpen ? 'text-orange-400' : ''} />
+                <FiSearch size={20} className={isSearchOpen ? 'text-blue-400' : ''} />
               </button>
               
               {/* Search Dropdown */}
               {isSearchOpen && (
-                <div className="absolute right-0 mt-2 w-72 md:w-96 bg-white rounded-md shadow-xl z-50 overflow-hidden">
+                <div className="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-50 overflow-hidden">
                   <form onSubmit={handleSearchSubmit} className="relative">
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={handleSearchChange}
                       placeholder="Search for products..."
-                      className="w-full px-4 py-3 pl-10 pr-10 text-gray-800 focus:outline-none"
+                      className="w-full px-4 py-2 pl-10 pr-10 text-gray-800 focus:outline-none"
                       autoComplete="off"
                     />
                     <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -327,7 +331,7 @@ const Navigation = () => {
                         <Link
                           key={product.id}
                           href={`/products/${product.id}`}
-                          className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                           onClick={() => {
                             setIsSearchOpen(false);
                             setSearchQuery('');
@@ -343,7 +347,7 @@ const Navigation = () => {
                   
                   {/* No Results */}
                   {searchQuery && searchResults.length === 0 && (
-                    <div className="px-4 py-3 text-sm text-gray-500">
+                    <div className="px-4 py-2 text-sm text-gray-500">
                       No products found for "{searchQuery}"
                     </div>
                   )}
@@ -351,20 +355,19 @@ const Navigation = () => {
               )}
             </div>
             
-            <div className="relative">
-              <button 
-                onClick={() => setIsCartOpen(true)}
-                className="text-white hover:text-orange-300 transition-colors p-2 relative"
-                aria-label="Shopping Cart"
-              >
-                <FiShoppingCart size={20} />
-                <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  0
+            {/* Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="p-2 text-white hover:text-blue-300 relative"
+              aria-label="Shopping cart"
+            >
+              <FiShoppingCart size={20} />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalItems}
                 </span>
-              </button>
-            </div>
-            
-            {/* Shopping Cart Drawer */}
+              )}
+            </button>
             <ShoppingCartDrawer 
               isOpen={isCartOpen} 
               onClose={() => setIsCartOpen(false)} 
@@ -379,10 +382,14 @@ const Navigation = () => {
           <div className="flex flex-col space-y-3">
             {navItems.map((item) => {
               console.log(`Rendering mobile nav item: ${item.id}, active: ${activeSection === item.id}`);
+              const href = pathname === '/' ? `#${item.id}` : item.id === 'home' ? '/' : `/#${item.id}`;
+              const isActive = (pathname === '/' && activeSection === item.id) || 
+                             (pathname !== '/' && item.id === 'home');
+              
               return (
-                <a
+                <Link
                   key={item.id}
-                  href={`#${item.id}`}
+                  href={href}
                   onClick={(e) => {
                     e.preventDefault();
                     console.log('Mobile nav clicked:', item.id);
@@ -390,14 +397,14 @@ const Navigation = () => {
                     setIsMenuOpen(false);
                   }}
                   className={`text-left py-3 px-4 rounded-lg transition-colors text-lg ${
-                    activeSection === item.id
-                      ? 'bg-orange-500 text-white font-medium'
+                    isActive
+                      ? 'bg-blue-500 text-white font-medium'
                       : 'text-white hover:bg-white/10'
                   }`}
-                  aria-current={activeSection === item.id ? 'page' : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   {item.name}
-                </a>
+                </Link>
               );
             })}
             
@@ -410,7 +417,7 @@ const Navigation = () => {
                     value={searchQuery}
                     onChange={handleSearchChange}
                     placeholder="Search products..."
-                    className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     autoComplete="off"
                   />
                   <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60" />
